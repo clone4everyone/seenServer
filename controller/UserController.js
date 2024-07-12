@@ -17,11 +17,12 @@ exports.tracking=async(req,res,next)=>{
     { $inc: { view: 1 } } // Update: Increment the 'view' field by 1
   );
   // Redirect to the actual image
-  const imagePath = path.join(__dirname, '..', 'Images', 'logo512.png'); // Use the actual image URL
- return res.sendFile(imagePath);
+  const imagePath = path.join(__dirname, '..', 'Images', 'sec.png'); // Adjust the path as needed
+  return res.sendFile(imagePath);
 
 }
 exports.upload=async(req,res,next)=>{
+  console.log('hello')
     try{
     const { userId } = req.query.userId; // Assume the userId is sent in the request body
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -33,7 +34,7 @@ exports.upload=async(req,res,next)=>{
 
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const page = pdfDoc.getPage(0);
-  const trackingImageUrl = `http://localhost:9000/user/tracking-image`;
+  const trackingImageUrl = `https://seenserver.onrender.com/user/tracking-image?userId=${userId}`;
  
     const trackingImageResponse = await fetch(trackingImageUrl);
     if (!trackingImageResponse.ok) {
