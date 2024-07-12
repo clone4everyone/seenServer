@@ -17,8 +17,8 @@ exports.tracking=async(req,res,next)=>{
     { $inc: { view: 1 } } // Update: Increment the 'view' field by 1
   );
   // Redirect to the actual image
-  const imagePath = path.join(__dirname, '..', 'Images', 'logo512.png'); // Use the actual image URL
- return res.sendFile(imagePath);
+  const imageUrl = "https://res.cloudinary.com/duhadnqmh/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1719590214/avatars/fktukuwjvwjivaq7g1qi.webp" // Use the actual image URL
+res.redirect(imageUrl);
 
 }
 exports.upload=async(req,res,next)=>{
