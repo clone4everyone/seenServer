@@ -33,7 +33,7 @@ exports.upload=async(req,res,next)=>{
 
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const page = pdfDoc.getPage(0);
-  const trackingImageUrl = `http://localhost:9000/user/tracking-image`;
+  const trackingImageUrl = `https://seenserver.onrender.com/user/tracking-image`;
  
     const trackingImageResponse = await fetch(trackingImageUrl);
     if (!trackingImageResponse.ok) {
