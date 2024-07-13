@@ -28,6 +28,7 @@ exports.upload=async(req,res,next)=>{
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('ds')
         return res.status(400).send('No files were uploaded.');
+        console.log('nice')
       }
   const file = req.files.file;
   const pdfBytes = file.data;
