@@ -17,8 +17,11 @@ exports.tracking=async(req,res,next)=>{
     { $inc: { view: 1 } } // Update: Increment the 'view' field by 1
   );
   // Redirect to the actual image
-  const imagePath = path.join(__dirname, '..', 'Images', 'sec.png'); // Adjust the path as needed
+  const imagePath = path.join(__dirname, '..', 'Images', 'Krishna3.png'); 
+  console.log(imagePath);// Adjust the path as needed
   return res.sendFile(imagePath);
+//   const imageUrl = 'https://example.com/tracking-image.png'; // Use the actual image URL
+//  return  res.redirect(imageUrl);
 
 }
 exports.upload=async(req,res,next)=>{
@@ -28,7 +31,7 @@ exports.upload=async(req,res,next)=>{
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('ds')
         return res.status(400).send('No files were uploaded.');
-        console.log('nice')
+       
       }
   const file = req.files.file;
   const pdfBytes = file.data;
@@ -36,15 +39,16 @@ exports.upload=async(req,res,next)=>{
   const pdfDoc = await PDFDocument.load(pdfBytes);
   const page = pdfDoc.getPage(0);
   const trackingImageUrl = `https://seenserver.onrender.com/user/tracking-image?userId=${userId}`;
- 
+  // const trackingImageUrl = `http://localhost:9000/user/tracking-image?userId=${userId}`;
     const trackingImageResponse = await fetch(trackingImageUrl);
     if (!trackingImageResponse.ok) {
       throw new Error(`Failed to fetch tracking image: ${trackingImageResponse.statusText}`);
     }
     const trackingImageArrayBuffer = await trackingImageResponse.arrayBuffer();
     const trackingImageBytes = Buffer.from(trackingImageArrayBuffer);
+    console.log('Tracking Image Length:', trackingImageBytes.length);
   const trackingImage = await pdfDoc.embedPng(trackingImageBytes);
-
+ console.log(trackingImage)
   const { width, height } = trackingImage.scale(0.05); // Scale the image to be very small
 
   page.drawImage(trackingImage, {
@@ -55,7 +59,7 @@ exports.upload=async(req,res,next)=>{
   });
 
   const modifiedPdfBytes = await pdfDoc.save();
-
+  fs.writeFileSync(`modified_${userId}.pdf`, modifiedPdfBytes);
   await Users.create({
    id: userId,
    old: Buffer.from(pdfBytes), // Convert pdfBytes to Buffer
