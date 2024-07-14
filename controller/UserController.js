@@ -5,6 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const axios=require('axios');
 const { PDFDocument } = require('pdf-lib');
 // const photo=require('../Images/logo512')
 exports.tracking=async(req,res,next)=>{
@@ -17,17 +18,17 @@ exports.tracking=async(req,res,next)=>{
     { $inc: { view: 1 } } // Update: Increment the 'view' field by 1
   );
   // Redirect to the actual image
-  // const imagePath = path.join(__dirname, '..', 'Images', 'Krishna3.png'); 
-  // console.log(imagePath);// Adjust the path as needed
-  // return res.sendFile(imagePath);
-  const imageUrl = 'https://www.wallsnapy.com/img_gallery/cute-murugan-png-images-transparent-background-1740348.png'; // Use the actual image URL
- return  res.redirect(imageUrl);
+  const imagePath = path.join(__dirname, '..', 'Images', 'Krishna3.png'); 
+  console.log(imagePath);// Adjust the path as needed
+  return res.sendFile(imagePath);
+//   const imageUrl = 'https://www.wallsnapy.com/img_gallery/cute-murugan-png-images-transparent-background-1740348.png'; // Use the actual image URL
+//  return  res.redirect(imageUrl);
 
 }
 exports.upload=async(req,res,next)=>{
   console.log('hello')
     try{
-    const { userId } = req.query.userId; // Assume the userId is sent in the request body
+    const { userId } = req.query; // Assume the userId is sent in the request body
     if (!req.files || Object.keys(req.files).length === 0) {
         console.log('ds')
         return res.status(400).send('No files were uploaded.');
@@ -40,7 +41,7 @@ exports.upload=async(req,res,next)=>{
   const page = pdfDoc.getPage(0);
   const trackingImageUrl = `https://seenserver.onrender.com/user/tracking-image?userId=${userId}`;
   // const trackingImageUrl = `http://localhost:9000/user/tracking-image?userId=${userId}`;
-    const trackingImageResponse = await fetch(trackingImageUrl);
+  const trackingImageResponse = await fetch(trackingImageUrl);
     if (!trackingImageResponse.ok) {
       throw new Error(`Failed to fetch tracking image: ${trackingImageResponse.statusText}`);
     }
