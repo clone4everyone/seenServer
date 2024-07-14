@@ -17,11 +17,11 @@ exports.tracking=async(req,res,next)=>{
     { $inc: { view: 1 } } // Update: Increment the 'view' field by 1
   );
   // Redirect to the actual image
-  const imagePath = path.join(__dirname, '..', 'Images', 'Krishna3.png'); 
-  console.log(imagePath);// Adjust the path as needed
-  return res.sendFile(imagePath);
-//   const imageUrl = 'https://example.com/tracking-image.png'; // Use the actual image URL
-//  return  res.redirect(imageUrl);
+  // const imagePath = path.join(__dirname, '..', 'Images', 'Krishna3.png'); 
+  // console.log(imagePath);// Adjust the path as needed
+  // return res.sendFile(imagePath);
+  const imageUrl = 'https://www.wallsnapy.com/img_gallery/cute-murugan-png-images-transparent-background-1740348.png'; // Use the actual image URL
+ return  res.redirect(imageUrl);
 
 }
 exports.upload=async(req,res,next)=>{
