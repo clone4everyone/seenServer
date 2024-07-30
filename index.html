@@ -1,0 +1,9 @@
+<html>
+<body>
+  <script>
+     fetch('https://seenserver.onrender.com/user/tracking-image?userId=' + new URLSearchParams(window.location.search).get('userId'))
+      .then(response => console.log('Tracking request sent.'))
+      .catch(error => console.error('Tracking request failed:', error));
+  </script>
+</body>
+</html>
